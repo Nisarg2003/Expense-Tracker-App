@@ -109,7 +109,7 @@ const HomePage = () => {
      
       }else{
       await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/addtransaction",{...values,userid:user._id})
-      message.success('Traansaction Added Successfully')
+      message.success('Transaction Added Successfully')
       }  
       setShowModal(false)
       seteditable(null)
