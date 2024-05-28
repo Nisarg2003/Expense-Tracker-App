@@ -18,7 +18,7 @@ connectDb();
 const app = express()
 
 const corsOptions = {
-    origin: 'https://expense-tracker-app-six-puce.vercel.app/', 
+    origin: 'https://expense-tracker-app-six-puce.vercel.app', 
     methods: ['GET', 'POST'], 
     allowedHeaders: ['Content-Type', 'Authorization']
   };
