@@ -1,106 +1,107 @@
-
-import React, { useState, useEffect } from 'react';
-import Layout from '../components/Layout/Layout';
-import { Select, Form, Modal, Input, Table, DatePicker, message } from 'antd';
-import { UnorderedListOutlined, AreaChartOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import React, { useState,useEffect } from 'react'
+import Layout from '../components/Layout/Layout'
+import {Select,Form,Modal,Input ,Table, DatePicker,Option, message} from 'antd'
+import {UnorderedListOutlined, AreaChartOutlined,EditOutlined,DeleteOutlined} from '@ant-design/icons'
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Navigate, useActionData, useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import Analytics from '../components/Analytics';
-const { RangePicker } = DatePicker;
+const { RangePicker } = DatePicker
+const refresh = () => window.location.reload(true)
+
 
 const HomePage = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [category, setCategory] = useState('all');
-  const [allTransaction, setAllTransaction] = useState([]);
-  const [selectedDates, setSelectedDates] = useState([]);
-  const [frequency, setFrequency] = useState('all');
-  const [type, setType] = useState('all');
-  const [viewData, setViewData] = useState('table');
-  const [editable, setEditable] = useState(null);
-  const navigate = useNavigate();
 
+  const [showModal, setShowModal] = useState(false);
+  const [category,setcategory] = useState("all")
+  const [allTransaction,setallTransaction] = useState([])
+  const [selectedDates,setselectedDates] = useState([])
+  const [frequency,setfrequency] = useState('all')
+  const [type,settype] = useState('all')
+  const [viewData,setviewData] = useState('table')
+  const [editable,seteditable] = useState(null)
+  const navigate = useNavigate()
+
+  // Table Data
   const columns = [
     {
-      title: 'Date',
-      dataIndex: 'date',
-      render: (text) => <span>{moment(text).format('YYYY-MM-DD')}</span>,
+      title:'Date',
+      dataIndex:'date',
+      render : (text) => <span>{moment(text).format('YYYY-MM-DD')}</span>
     },
     {
-      title: 'Amount',
-      dataIndex: 'amount',
+      title:'Amount',
+      dataIndex:'amount'
     },
     {
-      title: 'Description',
-      dataIndex: 'description',
+      title:'Description',
+      dataIndex:'description'
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
+      title:'Type',
+      dataIndex:'type'
     },
     {
-      title: 'Category',
-      dataIndex: 'category',
+      title:'Category',
+      dataIndex:'category'
     },
     {
-      title: 'Reference',
-      dataIndex: 'reference',
+      title:'Refrence',
+      dataIndex:'refrence'
     },
     {
-      title: 'Actions',
-      render: (text, record) => (
+      title:'Actions',
+      render : (text,record) => (
         <div>
-          <EditOutlined
-            className='mx-2'
-            onClick={() => {
-              setEditable(record);
-              setShowModal(true);
-            }}
-          />
-          <DeleteOutlined
-            className='mx-2'
-            onClick={() => {
-              handleDelete(record);
-            }}
-          />
+          <EditOutlined className='mx-2' onClick={()=>{
+            seteditable(record)
+            setShowModal(true)
+          }}/>
+          <DeleteOutlined className='mx-2' onClick={()=>{
+            HandleDelete(record)
+          }} onAuxClick={refresh}/>
         </div>
-      ),
+      )  
     },
-  ];
+  ]
 
-  useEffect(() => {
-    const getAllTransaction = async () => {
+
+  // //getAll Transaction.
+
+  // //useEffect Hook
+  useEffect(()=>{
+    const getAllTransaction = async()=>{
       try {
-        const user = JSON.parse(localStorage.getItem('user'));
-        const res = await axios.post('https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/gettransactions', {
-          userid: user._id,
-          category,
-          frequency,
-          selectedDates,
-          type,
-        });
-        setAllTransaction(res.data);
+        const user = JSON.parse(localStorage.getItem('user'))
+  
+        const res = await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/gettransactions",{userid:user._id,category,frequency,selectedDates,type})
+        console.log(res.data)
+        setallTransaction(res.data)
       } catch (error) {
-        console.log(error);
-        toast.error('Error in getting Transactions');
+          console.log(error)
+          toast.error("Error in getting Transactions")
       }
-    };
-    getAllTransaction();
-  }, [frequency, selectedDates, type, category]);
+    }
+    getAllTransaction()
+  },[frequency,selectedDates,type,category])
 
-  const handleDelete = async (record) => {
+  //HandleDelete
+ 
+  const HandleDelete = async (record) => {
     try {
       await axios.post('https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/deletetransaction', {
         transactionId: record._id,
       });
       message.success('Transaction Deleted');
-      setAllTransaction(allTransaction.filter((transaction) => transaction._id !== record._id));
+      setallTransaction(allTransaction.filter((transaction) => transaction._id !== record._id));
     } catch (error) {
       console.log(error);
       message.error('Unable to Delete');
     }
   };
 
+  // //Form Handling
   const handleSubmit = async (values) => {
     try {
       const user = JSON.parse(localStorage.getItem('user'));
@@ -111,7 +112,7 @@ const HomePage = () => {
           ObjectId: editable._id,
         });
         message.success('Transaction Updated Successfully');
-        setAllTransaction((prev) =>
+        setallTransaction((prev) =>
           prev.map((transaction) => (transaction._id === editable._id ? res.data : transaction))
         );
       } else {
@@ -120,14 +121,15 @@ const HomePage = () => {
           userid: user._id,
         });
         message.success('Transaction Added Successfully');
-        setAllTransaction((prev) => [...prev, res.data]);
+        setallTransaction((prev) => [...prev, res.data]);
       }
       setShowModal(false);
-      setEditable(null);
+      seteditable(null);
     } catch (error) {
       message.error('Failed to add transaction');
     }
   };
+
 
   return (
     <Layout>
