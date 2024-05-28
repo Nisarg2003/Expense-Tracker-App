@@ -189,7 +189,7 @@ const HomePage = () => {
      
 
       <Modal title={editable ? 'Edit Transaction' : 'Add Transaction'}  open={showModal} onCancel={()=>setShowModal(false)} footer={false}>
-        <Form initialValues={editable} layout="vertical" onFinish={handleSubmit}>
+        <Form initialValues={editable} layout="vertical" onFinish={handleSubmit} onSubmit={handleSubmit}>
           <Form.Item label="Amount" name="amount">
             <Input type="text" required />
           </Form.Item>
@@ -226,7 +226,7 @@ const HomePage = () => {
             <Input type="text" required />
           </Form.Item>
           <div className='d-flex'>
-            <button type='submit' onClick={refresh} className='btn btn-primary'>SAVE</button>
+            <button type='submit' className='btn btn-primary'>SAVE</button>
           </div>
         </Form>
       </Modal>
