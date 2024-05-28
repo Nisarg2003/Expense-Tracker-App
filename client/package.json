@@ -1,5 +1,5 @@
 {
-  "proxy" : "https://expense-tracker-app-w90z.onrender.com/",
+  "proxy" : "https://expense-tracker-app-w90z.onrender.com",
   
   "name": "client",
 
