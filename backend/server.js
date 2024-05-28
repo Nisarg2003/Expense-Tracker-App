@@ -21,14 +21,8 @@ const app = express()
 //Middlewares
 app.use(morgan('dev'))
 app.use(express.json())
-const corsOptions = {
-    origin: "https://expense-tracker-app-six-puce.vercel.app/",
-    credentials: true,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    optionsSuccessStatus: 204,
-    allowedHeaders: "Content-Type, Authorization",
-  };
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 
 
