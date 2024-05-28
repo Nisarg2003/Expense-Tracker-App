@@ -89,7 +89,7 @@ const HomePage = () => {
   //HandleDelete
   const HandleDelete = async(record) => {
     try {
-      await axios.post("/api/v1/transactions/deletetransaction",{transactionId:record._id})
+      await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/deletetransaction",{transactionId:record._id})
       message.success('Transaction Deleted')
     } catch (error) {
       console.log(error)
@@ -103,11 +103,11 @@ const HomePage = () => {
     try {
       const user = JSON.parse(localStorage.getItem('user'))
       if(editable){
-        await axios.post("/api/v1/transactions/edittransaction",{payload:{...values,userid:user._id},ObjectId: editable._id})
+        await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/edittransaction",{payload:{...values,userid:user._id},ObjectId: editable._id})
         message.success('Transaction Updated Successfully')
      
       }else{
-      await axios.post("/api/v1/transactions/addtransaction",{...values,userid:user._id})
+      await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/addtransaction",{...values,userid:user._id})
       message.success('Traansaction Added Successfully')
       }  
       setShowModal(false)
