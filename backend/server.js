@@ -21,27 +21,28 @@ const app = express()
 //Middlewares
 app.use(morgan('dev'))
 app.use(express.json())
-app.use(cors())
+const corsOptions = {
+    origin: "https://expense-tracker-app-six-puce.vercel.app/",
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    optionsSuccessStatus: 204,
+    allowedHeaders: "Content-Type, Authorization",
+  };
+app.use(cors(corsOptions));
 
-//Api
+
+
 app.use("/api/v1", userRoutes);
 
-//rest api
+
 app.get('/',(req,res)=>{
     res.send("<h1>Welcome to Expense-Management-App</h1>")
 })
 
-// //static Files
-// app.use(express.static(path.join(__dirname, './client/build')));
 
-// app.get('*',function(req,res){
-//     res.sendFile(path.join(__dirname, './client/build/index.html'));
-// })
-
-//PORT
 const PORT = 8080 || process.env.PORT;
 
-//Run listen
+
 app.listen(PORT,()=>{
     console.log("server running")
 }) 

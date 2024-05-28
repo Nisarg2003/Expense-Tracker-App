@@ -16,7 +16,7 @@ const Register = () => {
         // console.log(name,email,password)
         // toast.success('sshh')
         try {
-            const res = await axios.post("/api/v1/register",{name,email,password})
+            const res = await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/register",{name,email,password})
             
             if(res.data.success){
                 toast.success(res.data.message)

@@ -14,7 +14,7 @@ const Login = () => {
     const handlesubmit = async(e)=>{
         e.preventDefault();
         try {
-            const res = await axios.post("/api/v1/login",{email,password})
+            const res = await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/login",{email,password})
             
             if(res.data.success){
                 toast.success(res.data.message)

@@ -1,6 +1,5 @@
 {
-  "proxy" : "https://expense-tracker-app-w90z.onrender.com",
-  
+
   "name": "client",
 
   "version": "0.1.0",

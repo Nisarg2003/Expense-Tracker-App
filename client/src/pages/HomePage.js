@@ -75,7 +75,7 @@ const HomePage = () => {
       try {
         const user = JSON.parse(localStorage.getItem('user'))
   
-        const res = await axios.post("/api/v1/transactions/gettransactions",{userid:user._id,category,frequency,selectedDates,type})
+        const res = await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/gettransactions",{userid:user._id,category,frequency,selectedDates,type})
         console.log(res.data)
         setallTransaction(res.data)
       } catch (error) {
