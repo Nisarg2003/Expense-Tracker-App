@@ -84,52 +84,40 @@ const HomePage = () => {
       }
     }
     getAllTransaction()
+
   },[frequency,selectedDates,type,category])
 
   //HandleDelete
- 
-  const HandleDelete = async (record) => {
+  const HandleDelete = async(record) => {
     try {
-      await axios.post('https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/deletetransaction', {
-        transactionId: record._id,
-      });
-      message.success('Transaction Deleted');
-      setallTransaction(allTransaction.filter((transaction) => transaction._id !== record._id));
+      await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/deletetransaction",{transactionId:record._id})
+      message.success('Transaction Deleted')
     } catch (error) {
-      console.log(error);
-      message.error('Unable to Delete');
+      console.log(error)
+      message.error('Unable To Delete')
     }
-  };
+  }
 
   // //Form Handling
-  const handleSubmit = async (values) => {
+  const handleSubmit = async(values)=>{
+    
     try {
-      const user = JSON.parse(localStorage.getItem('user'));
-      let res;
-      if (editable) {
-        res = await axios.post('https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/edittransaction', {
-          payload: { ...values, userid: user._id },
-          ObjectId: editable._id,
-        });
-        message.success('Transaction Updated Successfully');
-        setallTransaction((prev) =>
-          prev.map((transaction) => (transaction._id === editable._id ? res.data : transaction))
-        );
-      } else {
-        res = await axios.post('https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/addtransaction', {
-          ...values,
-          userid: user._id,
-        });
-        message.success('Transaction Added Successfully');
-        setallTransaction((prev) => [...prev, res.data]);
-      }
-      setShowModal(false);
-      seteditable(null);
-    } catch (error) {
-      message.error('Failed to add transaction');
-    }
-  };
+      const user = JSON.parse(localStorage.getItem('user'))
+      if(editable){
+        await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/edittransaction",{payload:{...values,userid:user._id},ObjectId: editable._id})
+        message.success('Transaction Updated Successfully')
+     
+      }else{
+      await axios.post("https://expense-tracker-app-w90z.onrender.com/api/v1/transactions/addtransaction",{...values,userid:user._id})
+      message.success('Traansaction Added Successfully')
+      }  
+      setShowModal(false)
+      seteditable(null)
 
+    } catch (error) {
+      message.error("Failed to add transaction")
+    }
+  }
 
   return (
     <Layout>
