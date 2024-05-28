@@ -17,12 +17,19 @@ connectDb();
 // Rest Object
 const app = express()
 
-
+const corsOptions = {
+    origin: 'https://expense-tracker-app-six-puce.vercel.app/', 
+    methods: ['GET', 'POST'], 
+    allowedHeaders: ['Content-Type', 'Authorization']
+  };
+  
+  app.use(cors(corsOptions));
+  
 //Middlewares
 app.use(morgan('dev'))
 app.use(express.json())
 
-app.use(cors());
+
 
 
 
